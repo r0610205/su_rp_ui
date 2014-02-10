@@ -1,0 +1,52 @@
+<form class="form-signin" role="form" 
+  name="signin_form" 
+  ng-submit="signin()">
+
+  <h2 class="form-signin-heading">Please sign in</h2>
+  
+  <input class="form-control" placeholder="Account" 
+    type="account"
+    ng-model='user.account'
+    ng-required='true' 
+    required 
+    autofocus
+  >
+  <input class="form-control" placeholder="Email address" 
+    type="email" 
+    ng-model='user.email'
+    ng-required='true'
+    required
+  >
+  <input class="form-control" placeholder="Password"
+    type="password" 
+    ng-model='user.password' 
+    ng-required='true'
+    required
+  >
+  
+  <button class="btn btn-lg btn-primary btn-block" 
+    type="submit"
+    ng-disabled="signin_form.$invalid || !connection.established || connection.errors">
+
+    <!-- signin_form.$invalid ||  -->
+
+    Sign in
+  </button>
+
+    <span class="status-bar label" 
+      ng-class="{
+          'label-default': !connection.established,
+          'label-success': connection.established,
+          'label-danger': connection.errors
+        }"
+      >
+      <i class="fa" 
+        ng-class="{
+          'fa-spinner': !connection.established,
+          'fa-spin': !connection.established
+        }"></i>
+      {{connection.status}}
+    </span>
+
+
+</form>
