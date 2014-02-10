@@ -16,7 +16,8 @@ angular.module('suApp')
         authorized: false
 
       signin = Restangular.oneUrl('signin')
-      signin.get().then ->
+      signin.get().then (res) ->
+        console.log 'get then' ,res
         _.extend $scope.connection, 
           established: true
           status: Messages.connection.verified

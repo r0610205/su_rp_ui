@@ -9,18 +9,21 @@ angular.module('suApp', [
   'ngRoute'
 ])
 
-.config (RestangularProvider, $httpProvider) ->
+.config (RestangularProvider) ->
 
-  $httpProvider.defaults.withCredentials = true
   token = undefined
 
-  RestangularProvider.setBaseUrl('http://gbg.lch.com:3000')
+  RestangularProvider.setBaseUrl('https://gbg.raterpro.com')
+
+  RestangularProvider.setDefaultHttpFields 
+    withCredentials: true
   
   RestangularProvider.addResponseInterceptor (data, operation, what, url, response) ->
-    token = response.headers('x-csrf-token');
+    token = response.headers('x-csrf-token')
     if token
-      RestangularProvider.setDefaultHttpFields headers: {'X-CSRF-Token': token}
-    console.log 'operation', operation
+      RestangularProvider.setDefaultHeaders 'X-CSRF-Token': token
+        
+    console.log 'token', token
     switch operation
       when 'getList'
         data.items
@@ -32,10 +35,10 @@ angular.module('suApp', [
   RestangularProvider.setFullResponse(true)
   RestangularProvider.setRequestSuffix('.json')
 
-  # Use Request interceptor
-  RestangularProvider.addFullRequestInterceptor (element, operation, route, url, headers) ->
-    headers['x-csrf-token'] = token
-    return element
+  # # Use Request interceptor
+  # RestangularProvider.addFullRequestInterceptor (element, operation, route, url, headers) ->
+  #   #headers['x-csrf-token'] = token
+  #   return element
 
   
 .config ($routeProvider) ->

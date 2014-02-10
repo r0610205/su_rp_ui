@@ -320,6 +320,12 @@ module.exports = function (grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
+      dropbox: {
+        expand: true,
+        cwd: '<%= yeoman.dist %>/',
+        src: ['**'],
+        dest: '/home/sergey/Dropbox/dist'
+      },
       dist: {
         files: [{
           expand: true,
@@ -453,7 +459,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'copy:dropbox'
   ]);
 
   grunt.registerTask('default', [
