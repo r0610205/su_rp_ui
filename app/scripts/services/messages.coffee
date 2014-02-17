@@ -5,6 +5,7 @@ angular.module('suApp')
     connection: 
       inProcess: 'Verifying connection to RaterPRO'
       verified: 'Connection Verified'
+      noDomain: 'Please, specify account'
       generalError: 'Connection Error'
       authorized: 'Connection Authorized'
       authenticationError: 'Connection Error'

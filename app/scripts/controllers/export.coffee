@@ -3,26 +3,25 @@
 angular.module('suApp')
   .controller 'ExportCtrl', [ 
     '$scope',
-    '$location',
-    '$http',
-    'Restangular',
-    'Messages',
-    ($scope, $location, $http, Restangular, Messages) ->
+    '$location'
+    ($scope, $location) ->
+
+      console.log 'main data', $scope.app.suData
 
       $scope.connection =
-        status: Messages.connection.inProcess
+        status: $scope.app.messages.connection.inProcess
         established: false
         errors: false
         authorized: false
 
-      projects = Restangular.all('projects')
+      projects = $scope.rest().all('projects')
 
       projects.getList().then (response) ->
         $scope.projects = response.data
         
         _.extend $scope.connection, 
           established: true
-          status: Messages.connection.verified
+          status: $scope.app.messages.connection.verified
       , (reason) ->
         switch reason.status
           when 401
@@ -30,7 +29,7 @@ angular.module('suApp')
 
         console.log 'errors', reason
         _.extend $scope.connection, 
-          status: Messages.connection.generalError
+          status: $scope.app.messages.connection.generalError
           errors: true
 
   ]

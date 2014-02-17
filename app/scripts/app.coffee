@@ -12,9 +12,7 @@ angular.module('suApp', [
 .config (RestangularProvider) ->
 
   token = undefined
-
-  RestangularProvider.setBaseUrl('https://gbg.raterpro.com')
-
+ 
   RestangularProvider.setDefaultHttpFields 
     withCredentials: true
   
@@ -22,8 +20,7 @@ angular.module('suApp', [
     token = response.headers('x-csrf-token')
     if token
       RestangularProvider.setDefaultHeaders 'X-CSRF-Token': token
-        
-    console.log 'token', token
+
     switch operation
       when 'getList'
         data.items
@@ -31,14 +28,10 @@ angular.module('suApp', [
         data
 
   RestangularProvider.setMethodOverriders(['put', 'patch'])
-
   RestangularProvider.setFullResponse(true)
   RestangularProvider.setRequestSuffix('.json')
 
-  # # Use Request interceptor
-  # RestangularProvider.addFullRequestInterceptor (element, operation, route, url, headers) ->
-  #   #headers['x-csrf-token'] = token
-  #   return element
+
 
   
 .config ($routeProvider) ->
@@ -52,5 +45,22 @@ angular.module('suApp', [
     
     .otherwise
       redirectTo: '/export'
+
+  
+.run ($rootScope, Subdomain, Messages, Utils, suData) ->
+  
+  _.extend $rootScope,
+
+    app:
+      messages: Messages
+      utils: Utils
+      suData: suData
+    rest: ->
+      Subdomain(suData.domain)
+
+    setDomain: (subdomain) ->
+      suData.domain = subdomain
+
+
 
 

@@ -7,8 +7,9 @@
   
   <input class="form-control" placeholder="Account" 
     type="account"
-    ng-model='user.account'
+    ng-model='account'
     ng-required='true' 
+    ng-change='connectToAccount()'
     required 
     autofocus
   >
